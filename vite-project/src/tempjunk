@@ -1,6 +1,5 @@
-import { useState } from "react";
-import Question from "./Question";
-import "./App.css";
+import React, { useState } from 'react';
+import Question from './Question';
 
 const questions = [
   { question: "What is the capital of France?", answer: "Paris" },
@@ -11,30 +10,23 @@ const questions = [
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
+  const [userAnswer, setUserAnswer] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
 
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setShowAnswer(false);
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-      setUserAnswer("");
-    }
+    setShowAnswer(false);
+    setCurrentQuestionIndex((prevIndex) => (prevIndex + 1) % questions.length);
+    setUserAnswer('');
   };
 
   const handlePrev = () => {
-    if (currentQuestionIndex > 0) {
-      setShowAnswer(false);
-      setCurrentQuestionIndex((prevIndex) => prevIndex - 1);
-      setUserAnswer("");
-    }
+    setShowAnswer(false);
+    setCurrentQuestionIndex((prevIndex) => (prevIndex - 1 + questions.length) % questions.length);
+    setUserAnswer('');
   };
 
   const handleSubmit = () => {
-    if (
-      userAnswer.trim().toLowerCase() ===
-      questions[currentQuestionIndex].answer.toLowerCase()
-    ) {
+    if (userAnswer.trim().toLowerCase() === questions[currentQuestionIndex].answer.toLowerCase()) {
       setScore(score + 1);
     }
     setShowAnswer(true);
@@ -52,7 +44,6 @@ function App() {
         handleNext={handleNext}
         handlePrev={handlePrev}
         handleSubmit={handleSubmit}
-        isLastQuestion={currentQuestionIndex === questions.length - 1}
       />
     </div>
   );
